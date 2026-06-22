@@ -110,9 +110,19 @@ function serialize(nodes: any[]): React.ReactNode[] {
       case 'upload': {
         const media = node.value
         if (!media || !media.url) return null
+        
+        // Handle custom image sizes (Full, Medium, Small)
+        const size = node.fields?.size || 'full'
+        const sizeClasses = {
+          full: 'w-full max-h-[550px] aspect-[16/10]',
+          medium: 'w-full md:w-3/4 max-h-[450px] aspect-[16/10]',
+          small: 'w-full md:w-1/2 max-h-[350px] aspect-[16/10]',
+        }
+        const selectedClass = sizeClasses[size as 'full' | 'medium' | 'small'] || sizeClasses.full
+
         return (
-          <div key={index} className="my-10 flex flex-col items-center">
-            <div className="relative w-full max-h-[500px] aspect-[16/10] rounded-xl overflow-hidden border border-neutral-800">
+          <div key={index} className="my-10 flex flex-col items-center justify-center w-full">
+            <div className={`relative rounded-xl overflow-hidden border border-neutral-800 bg-neutral-950 ${selectedClass}`}>
               <Image
                 src={media.url}
                 alt={media.alt || 'Blog Image'}
@@ -151,6 +161,22 @@ function serialize(nodes: any[]): React.ReactNode[] {
             {node.children ? serialize(node.children) : url}
           </a>
         )
+      }
+      case 'block': {
+        const blockType = node.fields?.blockType
+        if (blockType === 'Code') {
+          const code = node.fields?.code || ''
+          const language = node.fields?.language || ''
+          return (
+            <pre key={index} className="bg-neutral-950 p-5 rounded-xl overflow-x-auto my-8 border border-neutral-800 font-mono text-sm text-neutral-200">
+              <div className="flex justify-between items-center text-[10px] uppercase font-bold text-neutral-500 border-b border-neutral-900 pb-2 mb-3">
+                <span>{language}</span>
+              </div>
+              <code>{code}</code>
+            </pre>
+          )
+        }
+        return null
       }
       case 'horizontalrule':
         return <hr key={index} className="border-neutral-800 my-10" />

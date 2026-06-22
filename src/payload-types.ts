@@ -236,24 +236,6 @@ export interface Post {
    * Main cover image for the blog post
    */
   coverImage: number | Media;
-  /**
-   * The body of the blog post. Supports rich text, formatting, links, and code blocks.
-   */
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
   category: number | Category;
   tags?: (number | Tag)[] | null;
   author: number | Author;
@@ -269,6 +251,24 @@ export interface Post {
      * Falls back to excerpt if left empty (recommended 150-160 characters)
      */
     description?: string | null;
+  };
+  /**
+   * Write your main post body here. Supports formatting, headers, links, images, and code blocks.
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
   };
   updatedAt: string;
   createdAt: string;
@@ -445,7 +445,6 @@ export interface PostsSelect<T extends boolean = true> {
   slug?: T;
   excerpt?: T;
   coverImage?: T;
-  content?: T;
   category?: T;
   tags?: T;
   author?: T;
@@ -458,6 +457,7 @@ export interface PostsSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }

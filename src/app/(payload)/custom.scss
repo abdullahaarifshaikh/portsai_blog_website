@@ -1,0 +1,25 @@
+/* Custom spacious editor layout for Payload CMS */
+.rich-text [contenteditable="true"],
+.field-type-richText [contenteditable="true"],
+.editor-container [contenteditable="true"],
+.editor-input-wrapper [contenteditable="true"],
+.lexical-editor [contenteditable="true"],
+[contenteditable="true"].editor-input {
+  min-height: 500px !important;
+}
+
+/* Push the editor field and container down to create vertical headroom */
+.field-type-richText {
+  margin-top: 2rem !important;
+}
+
+.editor-container,
+.lexical-editor {
+  margin-top: 1rem !important;
+}
+
+/* Adjust the slash menu popup to prevent it from overlapping the top header */
+.slash-menu-popup {
+  max-height: 240px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
